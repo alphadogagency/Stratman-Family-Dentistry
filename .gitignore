@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.astro/
+.env*
+!.env.example
+.DS_Store
+.impeccable/review/
+
+# Local agency working materials; not part of the public website repository.
+AGENTS.md
+PRODUCT.md
+docs/
+.impeccable/

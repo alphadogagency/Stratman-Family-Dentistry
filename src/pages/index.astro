@@ -1,0 +1,90 @@
+---
+import Arrow from '../components/Arrow.astro';
+import '../styles/global.css';
+
+const offices = [
+  { id: 'oracle', name: 'Oracle', area: 'North Tucson', address: '5577 N Oracle Rd', city: 'Tucson, AZ 85704', phone: '(520) 677-2357', tel: '+15206772357', map: 'https://maps.app.goo.gl/PE8eFegqS3zSMwiK7' },
+  { id: 'wilmot', name: 'Wilmot', area: 'East Tucson', address: '801 N Wilmot Rd, Suite D-1', city: 'Tucson, AZ 85711', phone: '(520) 727-6766', tel: '+15207276766', map: 'https://maps.app.goo.gl/NDKtZZvBdXiL9HBa9' },
+];
+const care = [
+  { title: 'Cleanings & Exams', text: 'Make room for regular care. Visit us for dental cleanings and exams, and talk with our team about your oral health.' },
+  { title: 'Fillings & Crowns', text: 'Care for a tooth that needs attention. Our team can discuss fillings, crowns, and a treatment plan for your needs.' },
+  { title: 'Care For Children', text: 'Bring your family’s questions. We offer children’s dental cleanings and exams in a welcoming environment.' },
+  { title: 'More Dental Care', text: 'Ask our team about cosmetic dentistry, dentures, and other services. If you have an urgent dental concern, call your office to discuss emergency dental care.' },
+];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Family Dentist In Tucson | Stratman Family Dentistry</title>
+    <meta name="description" content="Family dental care and dental implants at Stratman Family Dentistry in Tucson. Find our Oracle and Wilmot offices and call to plan your visit." />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#f5f1e8" />
+    <link rel="icon" href="/assets/stratman-logo.webp" type="image/webp" />
+    <link rel="preload" href="/fonts/manrope-500.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="/assets/oracle-reception.webp" as="image" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip To Content</a>
+    <header class="site-header">
+      <div class="header-inner wrap">
+        <a class="brand" href="/" aria-label="Stratman Family Dentistry home"><img src="/assets/stratman-logo.webp" alt="Stratman Family Dentistry" width="470" height="221" /></a>
+        <nav class="desktop-nav" aria-label="Main navigation">
+          <a href="#practice">Our Practice</a><a href="#care">Dental Care</a><a href="#implants">Dental Implants</a><a href="#visit">Our Locations</a>
+        </nav>
+        <a class="button header-action" href="#visit">Plan Your Visit</a>
+        <details class="mobile-menu">
+          <summary aria-label="Toggle navigation"><span>Menu</span><svg class="menu-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h18M3 12h18M3 17h18" /></svg></summary>
+          <nav aria-label="Mobile navigation"><a href="#practice">Our Practice</a><a href="#care">Dental Care</a><a href="#implants">Dental Implants</a><a href="#visit">Our Locations</a><a href="#visit">Plan Your Visit</a></nav>
+        </details>
+      </div>
+    </header>
+    <main id="main">
+      <section class="hero wrap" aria-labelledby="welcome-title">
+        <figure class="hero-photo"><img src="/assets/oracle-reception.webp" alt="Sunlight fills the reception area at Stratman’s Oracle office" width="1199" height="797" fetchpriority="high" /><figcaption>Our Oracle Office</figcaption></figure>
+        <h1 id="welcome-title"><span>A Familiar Place</span><span>For Your Family’s Care.</span></h1>
+        <div class="hero-welcome"><p>Welcome to Stratman Family Dentistry. Family dental care and dental implants, with two welcoming offices here in Tucson.</p><a class="button" href="#visit">Find Your Office <Arrow /></a><a class="text-link" href="#care">Explore Our Dental Care <Arrow /></a></div>
+      </section>
+      <section class="location-band" aria-labelledby="locations-title">
+        <div class="location-band-inner wrap">
+          <div class="location-intro"><h2 id="locations-title">Two Tucson Offices.<br />One Warm Welcome.</h2><p>Choose the office that feels<br class="desktop-break" /> closest to home.</p></div>
+          {offices.map(office => <div class="band-office"><h3>{office.name}</h3><p>{office.address}</p><a href={`#${office.id}`}>Choose {office.name} <Arrow /></a></div>)}
+        </div>
+      </section>
+
+      <section id="care" class="care-section section wrap" aria-labelledby="care-title">
+        <div class="section-intro"><h2 id="care-title">Everyday Care.<br />For Every Stage.</h2><p>Family dentistry starts with the care you need today. From a regular cleaning to a tooth that needs attention, we’re here to talk through your next step.</p></div>
+        <div class="care-list">
+          {care.map((item, index) => <details open={index === 0}><summary><h3>{item.title}</h3><span class="plus" aria-hidden="true"></span></summary><p>{item.text}</p></details>)}
+        </div>
+      </section>
+
+      <section id="implants" class="implant-section" aria-labelledby="implant-title">
+        <div class="implant-inner wrap"><h2 id="implant-title">Let’s Talk About<br />Dental Implants.</h2><div class="implant-copy"><p>Missing a tooth? Start with a conversation. Stratman Family Dentistry offers dental implants and restorations. Our team can discuss your needs and the next step in your care.</p><a href="#visit" class="button button-light">Ask About Dental Implants <Arrow /></a></div></div>
+      </section>
+
+      <section id="practice" class="practice-section section wrap" aria-labelledby="practice-title">
+        <figure><img src="/assets/practice-welcome.webp" alt="A visitor speaking with a team member at Stratman’s reception desk" width="1024" height="803" loading="lazy" decoding="async" /></figure>
+        <div class="practice-copy"><h2 id="practice-title">Come In.<br />Feel At Ease.</h2><p>Comfort matters. Our approach is personal, with room for your questions and a conversation about the care that’s right for you.</p><p>Whether you’re returning for a checkup or looking for a new dental home, we welcome you to Stratman Family Dentistry.</p><a href="#visit" class="text-link">We’d Like To Meet You <Arrow /></a></div>
+      </section>
+
+      <section id="visit" class="visit-section" aria-labelledby="visit-title">
+        <div class="wrap"><div class="visit-heading"><h2 id="visit-title">Your Tucson Dental Home.</h2><p>Choose your office and give us a call to plan your visit.<br class="desktop-break" /> Our team can help with appointments and questions.</p></div>
+          <div class="office-grid">
+            {offices.map(office => <article id={office.id} class="office-detail" aria-labelledby={`${office.id}-title`}><div class="office-name"><h3 id={`${office.id}-title`}>{office.name}</h3><span>{office.area}</span></div><address>{office.address}<br />{office.city}</address><a class="office-phone" href={`tel:${office.tel}`} aria-label={`Call ${office.name} at ${office.phone}`}>{office.phone}</a><div class="office-actions"><a class="button" href={`tel:${office.tel}`}>Call {office.name} <Arrow /></a><a class="text-link" href={office.map} target="_blank" rel="noopener noreferrer" aria-label={`Directions to ${office.name} on Google Maps (opens in a new tab)`}>Get Directions <Arrow /></a></div></article>)}
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer"><div class="footer-inner wrap"><a class="footer-brand" href="/" aria-label="Stratman Family Dentistry home"><img src="/assets/stratman-logo.webp" alt="Stratman Family Dentistry" width="470" height="221" loading="lazy" /></a><p>Family Dental Care In Tucson.<br />Oracle &amp; Wilmot.</p><nav aria-label="Footer navigation"><a href="#care">Dental Care</a><a href="#implants">Dental Implants</a><a href="#visit">Our Locations</a></nav></div><div class="footer-bottom wrap"><small>© {new Date().getFullYear()} Stratman Family Dentistry</small><a href="https://mydentisttucson.com/privacy-policy/" target="_blank" rel="noopener noreferrer">Privacy Policy <span class="sr-only">on our current website (opens in a new tab)</span></a><a href="#main">Back To Top <span aria-hidden="true">↑</span></a></div></footer>
+    <a class="mobile-visit" href="#visit">Choose Your Office <Arrow /></a>
+    <script>
+      const menu = document.querySelector<HTMLDetailsElement>('.mobile-menu');
+      menu?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => { menu.open = false; }));
+      document.addEventListener('keydown', event => { if (event.key === 'Escape' && menu?.open) { menu.open = false; menu.querySelector('summary')?.focus(); } });
+      document.addEventListener('click', event => { if (menu?.open && event.target instanceof Node && !menu.contains(event.target)) menu.open = false; });
+    </script>
+  </body>
+</html>
