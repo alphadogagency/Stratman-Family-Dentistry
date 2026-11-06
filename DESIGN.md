@@ -123,3 +123,12 @@ References inspected: Website Starter's offset-image-backplate.png and staggered
 ## Local Hero Spacing Follow-Up — November 6, 2026
 
 Bryan authorized bringing the hero photograph closer to the text first. Above 1150px, use .94fr/1.06fr columns with a 4% gap, including wide desktops. This shifts the photo start approximately 69px left at a 1440px viewport, enlarging the image without changing heading size or photo corner/crop rules. Preserve existing columns and gaps at tablet/phone breakpoints. After native desktop and phone inspection, retain the hero without another backplate: the tighter relationship supplies the needed balance. Only the Oracle image has the accent plate. Build and diff whitespace checks passed; Bryan approved this version for the hosted preview on November 6.
+
+
+## Smooth Directional Entrances — November 6, 2026
+
+Bryan authorized this scoped motion update and release after finishing design review. Replace the scale-only photo entrance with one-shot opacity-and-slide entrances on four below-fold groups: care introduction and implant content rise; Oracle photo/backplate/caption enters from the left and practice copy from the right. Use 750ms cubic-bezier(.22,1,.36,1), with 20–32px desktop travel and 20px upward travel for all groups on phones. Independent CSS translate preserves existing transforms. Hero, navigation and office choices remain immediately visible.
+
+Content is visible by default. After observation initializes, prepare only offscreen groups and reveal once they enter the viewport by 64px (96px on phones, above the fixed office action). Unobserve on entry and remove animation classes on completion. Missing scripts/observer or initialization failure leaves all content visible. Focus and anchor destinations immediately cancel affected entrances; #main does not suppress future below-fold entrances. Reduced motion at load skips observation; switching it on disconnects observation and restores all groups. CSS also restores final visibility under reduced motion. Do not replay entrances when that preference switches back during the same visit.
+
+Use Codex's built-in browser first for future checks. Desktop, intermediate and phone samples verified opacity and positional progression without horizontal overflow; keyboard focus, practice anchor and controlled fallback fixtures passed. Native operating-system reduced-motion switching was not tested; preference branches were simulated and CSS reviewed. Evidence: docs/review/2026-11-06-directional-fades/.

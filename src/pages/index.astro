@@ -60,19 +60,19 @@ const care = [
       </section>
 
       <section id="care" class="care-section section wrap" aria-labelledby="care-title">
-        <div class="section-intro"><h2 id="care-title">Everyday Care.<br />For Every Stage.</h2><p>Family dentistry starts with the care you need today. From a regular cleaning to a tooth that needs attention, we’re here to talk through your next step.</p></div>
+        <div class="section-intro" data-fade-in><h2 id="care-title">Everyday Care.<br />For Every Stage.</h2><p>Family dentistry starts with the care you need today. From a regular cleaning to a tooth that needs attention, we’re here to talk through your next step.</p></div>
         <div class="care-list">
           {care.map((item, index) => <details open={index === 0}><summary><h3>{item.title}</h3><span class="plus" aria-hidden="true"></span></summary><p>{item.text}</p></details>)}
         </div>
       </section>
 
       <section id="implants" class="implant-section wrap" aria-labelledby="implant-title">
-        <div class="implant-inner"><h2 id="implant-title"><span>Let’s Talk About</span>Dental Implants.</h2><div class="implant-copy"><p>Missing a tooth? Start with a conversation. Stratman Family Dentistry offers dental implants and restorations. Our team can discuss your needs and the next step in your care.</p><a href="#visit" class="button button-light">Ask About Dental Implants <Arrow /></a></div></div>
+        <div class="implant-inner" data-fade-in><h2 id="implant-title"><span>Let’s Talk About</span>Dental Implants.</h2><div class="implant-copy"><p>Missing a tooth? Start with a conversation. Stratman Family Dentistry offers dental implants and restorations. Our team can discuss your needs and the next step in your care.</p><a href="#visit" class="button button-light">Ask About Dental Implants <Arrow /></a></div></div>
       </section>
 
       <section id="practice" class="practice-section section wrap" aria-labelledby="practice-title">
-        <figure class="practice-photo"><div class="practice-image"><div class="photo-frame"><img src="/assets/oracle-reception.webp" alt="The sunlit waiting room at Stratman’s Oracle office" width="1199" height="797" loading="lazy" decoding="async" /></div></div><figcaption>Our Oracle Office</figcaption></figure>
-        <div class="practice-copy"><h2 id="practice-title">Come In.<br />Feel At Ease.</h2><p>Comfort matters. Our approach is personal, with room for your questions and a conversation about the care that’s right for you.</p><p>Whether you’re returning for a checkup or looking for a new dental home, we welcome you to Stratman Family Dentistry.</p><a href="#visit" class="text-link">We’d Like To Meet You <Arrow /></a></div>
+        <figure class="practice-photo" data-fade-in="left"><div class="practice-image"><div class="photo-frame"><img src="/assets/oracle-reception.webp" alt="The sunlit waiting room at Stratman’s Oracle office" width="1199" height="797" loading="lazy" decoding="async" /></div></div><figcaption>Our Oracle Office</figcaption></figure>
+        <div class="practice-copy" data-fade-in="right"><h2 id="practice-title">Come In.<br />Feel At Ease.</h2><p>Comfort matters. Our approach is personal, with room for your questions and a conversation about the care that’s right for you.</p><p>Whether you’re returning for a checkup or looking for a new dental home, we welcome you to Stratman Family Dentistry.</p><a href="#visit" class="text-link">We’d Like To Meet You <Arrow /></a></div>
       </section>
 
       <section id="visit" class="visit-section" aria-labelledby="visit-title">
@@ -91,23 +91,59 @@ const care = [
       document.addEventListener('keydown', event => { if (event.key === 'Escape' && menu?.open) { menu.open = false; menu.querySelector('summary')?.focus(); } });
       document.addEventListener('click', event => { if (menu?.open && event.target instanceof Node && !menu.contains(event.target)) menu.open = false; });
 
-      // The photo is visible without JavaScript; enhancement never hides content.
+      // Default markup is visible. Prepare offscreen groups only after observation
+      // is available; initialization failures restore the complete visible page.
       const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
-      const practicePhoto = document.querySelector<HTMLElement>('.practice-photo img');
-      if (practicePhoto && 'IntersectionObserver' in window && !motionPreference.matches) {
-        const observer = new IntersectionObserver(entries => {
-          if (entries.some(entry => entry.isIntersecting)) {
-            if (!motionPreference.matches) practicePhoto.classList.add('photo-settle');
-            observer.disconnect();
-          }
-        }, { threshold: 0.2 });
-        observer.observe(practicePhoto);
-        motionPreference.addEventListener('change', event => {
-          if (event.matches) {
-            observer.disconnect();
-            practicePhoto.classList.remove('photo-settle');
-          }
-        });
+      const fadeGroups = [...document.querySelectorAll<HTMLElement>('[data-fade-in]')];
+      if ('IntersectionObserver' in window && !motionPreference.matches) {
+        let observer: IntersectionObserver | undefined;
+        const pending = new Set<HTMLElement>();
+        const showImmediately = (group: HTMLElement) => {
+          observer?.unobserve(group);
+          pending.delete(group);
+          group.classList.remove('fade-pending', 'fade-enter');
+        };
+        const showAnchor = () => {
+          let target: HTMLElement | null;
+          try { target = document.getElementById(decodeURIComponent(location.hash.slice(1))); }
+          catch { return; }
+          if (target && target.id !== 'main') fadeGroups.forEach(group => {
+            if (target.contains(group) || group.contains(target)) showImmediately(group);
+          });
+        };
+        try {
+          observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+              const group = entry.target as HTMLElement;
+              if (!entry.isIntersecting || !pending.has(group)) return;
+              showImmediately(group);
+              if (!motionPreference.matches && !group.contains(document.activeElement)) {
+                group.classList.add('fade-enter');
+              }
+            });
+          }, { threshold: 0, rootMargin: `0px 0px -${window.innerWidth <= 700 ? 96 : 64}px 0px` });
+          fadeGroups.forEach(group => {
+            group.addEventListener('animationend', () => group.classList.remove('fade-enter'));
+            group.addEventListener('focusin', () => showImmediately(group));
+            // Do not replay entrances on content already visible at startup.
+            if (group.getBoundingClientRect().top >= window.innerHeight) {
+              observer?.observe(group);
+              pending.add(group);
+              group.classList.add('fade-pending');
+            }
+          });
+          showAnchor();
+          window.addEventListener('hashchange', showAnchor);
+          motionPreference.addEventListener('change', event => {
+            if (event.matches) {
+              observer?.disconnect();
+              fadeGroups.forEach(showImmediately);
+            }
+          });
+        } catch {
+          observer?.disconnect();
+          fadeGroups.forEach(showImmediately);
+        }
       }
     </script>
   </body>
