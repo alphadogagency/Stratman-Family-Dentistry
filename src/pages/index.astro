@@ -24,7 +24,7 @@ const care = [
     <meta name="theme-color" content="#f5f1e8" />
     <link rel="icon" href="/assets/stratman-logo.webp" type="image/webp" />
     <link rel="preload" href="/fonts/manrope-500.ttf" as="font" type="font/ttf" crossorigin />
-    <link rel="preload" href="/assets/oracle-reception.webp" as="image" />
+    <link rel="preload" href="/assets/practice-welcome.webp" as="image" />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip To Content</a>
@@ -43,9 +43,15 @@ const care = [
     </header>
     <main id="main">
       <section class="hero wrap" aria-labelledby="welcome-title">
-        <figure class="hero-photo"><img src="/assets/oracle-reception.webp" alt="Sunlight fills the reception area at Stratman’s Oracle office" width="1199" height="797" fetchpriority="high" /><figcaption>Our Oracle Office</figcaption></figure>
-        <h1 id="welcome-title"><span>A Familiar Place</span><span>For Your Family’s Care.</span></h1>
-        <div class="hero-welcome"><p>Welcome to Stratman Family Dentistry. Family dental care and dental implants, with two welcoming offices here in Tucson.</p><a class="button" href="#visit">Find Your Office <Arrow /></a><a class="text-link" href="#care">Explore Our Dental Care <Arrow /></a></div>
+        <div class="hero-copy">
+          <h1 id="welcome-title"><span>A Familiar Place</span><span>For Your</span><span class="hero-emphasis">Family’s Care.</span></h1>
+          <p>Welcome to Stratman Family Dentistry. Family dental care and dental implants, with two welcoming offices here in Tucson.</p>
+          <div class="hero-actions"><a class="button" href="#visit">Find Your Office <Arrow /></a><a class="text-link" href="#care">Explore Our Dental Care <Arrow /></a></div>
+        </div>
+        <div class="hero-media">
+          <figure class="hero-photo"><img src="/assets/practice-welcome.webp" alt="A visitor welcomed by a team member at Stratman’s reception desk" width="1024" height="803" fetchpriority="high" /></figure>
+          <figure class="hero-place"><img src="/assets/oracle-reception.webp" alt="The sunlit waiting room at Stratman’s Oracle office" width="1199" height="797" /><figcaption>Our Oracle Office</figcaption></figure>
+        </div>
       </section>
       <section class="location-band" aria-labelledby="locations-title">
         <div class="location-band-inner wrap">
