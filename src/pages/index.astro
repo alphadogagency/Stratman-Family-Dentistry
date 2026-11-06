@@ -45,16 +45,15 @@ const care = [
       <section class="hero wrap" aria-labelledby="welcome-title">
         <div class="hero-copy">
           <h1 id="welcome-title"><span>A Familiar Place</span><span>For Your</span><span class="hero-emphasis">Family’s Care.</span></h1>
-          <p>Welcome to Stratman Family Dentistry. Family dental care and dental implants, with two welcoming offices here in Tucson.</p>
+          <p>Family dental care and dental implants, with two welcoming offices here in Tucson.</p>
           <div class="hero-actions"><a class="button" href="#visit">Find Your Office <Arrow /></a><a class="text-link" href="#care">Explore Our Dental Care <Arrow /></a></div>
         </div>
         <div class="hero-media">
           <figure class="hero-photo"><img src="/assets/practice-welcome.webp" alt="A visitor welcomed by a team member at Stratman’s reception desk" width="1024" height="803" fetchpriority="high" /></figure>
-          <figure class="hero-place"><img src="/assets/oracle-reception.webp" alt="The sunlit waiting room at Stratman’s Oracle office" width="1199" height="797" /><figcaption>Our Oracle Office</figcaption></figure>
         </div>
       </section>
-      <section class="location-band" aria-labelledby="locations-title">
-        <div class="location-band-inner wrap">
+      <section class="location-band wrap" aria-labelledby="locations-title">
+        <div class="location-band-inner">
           <div class="location-intro"><h2 id="locations-title">Two Tucson Offices.<br />One Warm Welcome.</h2><p>Choose the office that feels<br class="desktop-break" /> closest to home.</p></div>
           {offices.map(office => <div class="band-office"><h3>{office.name}</h3><p>{office.address}</p><a href={`#${office.id}`}>Choose {office.name} <Arrow /></a></div>)}
         </div>
@@ -67,12 +66,12 @@ const care = [
         </div>
       </section>
 
-      <section id="implants" class="implant-section" aria-labelledby="implant-title">
-        <div class="implant-inner wrap"><h2 id="implant-title">Let’s Talk About<br />Dental Implants.</h2><div class="implant-copy"><p>Missing a tooth? Start with a conversation. Stratman Family Dentistry offers dental implants and restorations. Our team can discuss your needs and the next step in your care.</p><a href="#visit" class="button button-light">Ask About Dental Implants <Arrow /></a></div></div>
+      <section id="implants" class="implant-section wrap" aria-labelledby="implant-title">
+        <div class="implant-inner"><h2 id="implant-title"><span>Let’s Talk About</span>Dental Implants.</h2><div class="implant-copy"><p>Missing a tooth? Start with a conversation. Stratman Family Dentistry offers dental implants and restorations. Our team can discuss your needs and the next step in your care.</p><a href="#visit" class="button button-light">Ask About Dental Implants <Arrow /></a></div></div>
       </section>
 
       <section id="practice" class="practice-section section wrap" aria-labelledby="practice-title">
-        <figure><img src="/assets/practice-welcome.webp" alt="A visitor speaking with a team member at Stratman’s reception desk" width="1024" height="803" loading="lazy" decoding="async" /></figure>
+        <figure class="practice-photo"><div class="practice-image"><div class="photo-frame"><img src="/assets/oracle-reception.webp" alt="The sunlit waiting room at Stratman’s Oracle office" width="1199" height="797" loading="lazy" decoding="async" /></div></div><figcaption>Our Oracle Office</figcaption></figure>
         <div class="practice-copy"><h2 id="practice-title">Come In.<br />Feel At Ease.</h2><p>Comfort matters. Our approach is personal, with room for your questions and a conversation about the care that’s right for you.</p><p>Whether you’re returning for a checkup or looking for a new dental home, we welcome you to Stratman Family Dentistry.</p><a href="#visit" class="text-link">We’d Like To Meet You <Arrow /></a></div>
       </section>
 
@@ -84,13 +83,32 @@ const care = [
         </div>
       </section>
     </main>
-    <footer class="site-footer"><div class="footer-inner wrap"><a class="footer-brand" href="/" aria-label="Stratman Family Dentistry home"><img src="/assets/stratman-logo.webp" alt="Stratman Family Dentistry" width="470" height="221" loading="lazy" /></a><p>Family Dental Care In Tucson.<br />Oracle &amp; Wilmot.</p><nav aria-label="Footer navigation"><a href="#care">Dental Care</a><a href="#implants">Dental Implants</a><a href="#visit">Our Locations</a></nav></div><div class="footer-bottom wrap"><small>© {new Date().getFullYear()} Stratman Family Dentistry</small><a href="https://mydentisttucson.com/privacy-policy/" target="_blank" rel="noopener noreferrer">Privacy Policy <span class="sr-only">on our current website (opens in a new tab)</span></a><a href="#main">Back To Top <span aria-hidden="true">↑</span></a></div></footer>
+    <footer class="site-footer"><div class="footer-inner wrap"><a class="footer-brand" href="/" aria-label="Stratman Family Dentistry home"><img src="/assets/stratman-logo.webp" alt="Stratman Family Dentistry" width="470" height="221" loading="lazy" /></a><div class="footer-contact"><p>Family Dental Care In Tucson.</p>{offices.map(office => <a href={`tel:${office.tel}`}>{office.name} <span>{office.phone}</span></a>)}</div><nav aria-label="Footer navigation"><a href="#care">Dental Care</a><a href="#implants">Dental Implants</a><a href="#visit">Our Locations</a></nav></div><div class="footer-bottom wrap"><small>© {new Date().getFullYear()} Stratman Family Dentistry</small><a href="https://mydentisttucson.com/privacy-policy/" target="_blank" rel="noopener noreferrer">Privacy Policy <span class="sr-only">on our current website (opens in a new tab)</span></a><a href="#main">Back To Top <span aria-hidden="true">↑</span></a></div></footer>
     <a class="mobile-visit" href="#visit">Choose Your Office <Arrow /></a>
     <script>
       const menu = document.querySelector<HTMLDetailsElement>('.mobile-menu');
       menu?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => { menu.open = false; }));
       document.addEventListener('keydown', event => { if (event.key === 'Escape' && menu?.open) { menu.open = false; menu.querySelector('summary')?.focus(); } });
       document.addEventListener('click', event => { if (menu?.open && event.target instanceof Node && !menu.contains(event.target)) menu.open = false; });
+
+      // The photo is visible without JavaScript; enhancement never hides content.
+      const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+      const practicePhoto = document.querySelector<HTMLElement>('.practice-photo img');
+      if (practicePhoto && 'IntersectionObserver' in window && !motionPreference.matches) {
+        const observer = new IntersectionObserver(entries => {
+          if (entries.some(entry => entry.isIntersecting)) {
+            if (!motionPreference.matches) practicePhoto.classList.add('photo-settle');
+            observer.disconnect();
+          }
+        }, { threshold: 0.2 });
+        observer.observe(practicePhoto);
+        motionPreference.addEventListener('change', event => {
+          if (event.matches) {
+            observer.disconnect();
+            practicePhoto.classList.remove('photo-settle');
+          }
+        });
+      }
     </script>
   </body>
 </html>

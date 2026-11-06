@@ -107,3 +107,19 @@ The service list uses native disclosure controls with plus/minus states. Desktop
 - Do keep text readable across desktop and mobile.
 - Don't add decorative shadows, gradients, or rounded card grids.
 - Don't substitute generated people, offices, or clinical results for this practice.
+
+
+## Local Image Backplate — November 6, 2026
+
+Bryan reviewed this refinement and authorized committing and pushing it for the hosted preview on November 6. This is not whole-site client approval. The older square-corner description above reflects the original release, while the current local draft already has rounded media, panels and controls from the authorized November 6 refinement. This pass preserves those existing choices.
+
+Use one static pale-blue (`--blue-light`, #d7e2e9) rounded backplate behind the Oracle waiting-room image in “Come In. Feel At Ease.” The separate solid block occupies 66% of the image group's width and 64% of its height, exposed at the lower left. Reserve 24px at the left and 28px below the image on desktop, reduced to 16px/20px at 700px and below. Plate corners are 32/32/32/72px, reduced to 24/24/24/48px on phones. Keep the image's existing rounded crop and caption outside the layered composition. The hero stands alone, avoiding repetition on every photo.
+
+This is deliberate flat framing authorized by Bryan's updated dental guidance, not a shadow. Use an empty CSS pseudo-element, pointer-events:none and an isolated stacking context; it has no reading-order or keyboard target. No new motion, photo, copy, color token, dependency or interaction is introduced. Preserve existing reduced-motion behavior.
+
+References inspected: Website Starter's offset-image-backplate.png and staggered-image-composition.png, November 6, 2026. Only their layering principle is used; their people, content and palette are not client assets. Verification: docs/review/2026-11-06-backplates/review.md.
+
+
+## Local Hero Spacing Follow-Up — November 6, 2026
+
+Bryan authorized bringing the hero photograph closer to the text first. Above 1150px, use .94fr/1.06fr columns with a 4% gap, including wide desktops. This shifts the photo start approximately 69px left at a 1440px viewport, enlarging the image without changing heading size or photo corner/crop rules. Preserve existing columns and gaps at tablet/phone breakpoints. After native desktop and phone inspection, retain the hero without another backplate: the tighter relationship supplies the needed balance. Only the Oracle image has the accent plate. Build and diff whitespace checks passed; Bryan approved this version for the hosted preview on November 6.
